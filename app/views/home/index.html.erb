@@ -1,0 +1,21 @@
+<h1>Lista de Rotas</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Método</th>
+      <th>Rota</th>
+      <th>Controller</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @routes.each do |route| %>
+      <tr>
+        <td><%= route[:verb] %></td>
+        <td><%= route[:path] %></td>
+        <td><%= route[:controller] %></td>
+        <td><%= route[:action] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

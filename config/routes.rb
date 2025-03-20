@@ -12,4 +12,6 @@ Rails.application.routes.draw do
     post "/roll", to: "rolls#roll"
     get "/history", to: "rolls#history"
   end
+
+  root "home#index"
 end
