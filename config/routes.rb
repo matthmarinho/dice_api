@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   Rails.application.routes.draw do
-    post "/roll", to: "rolls#roll"
-    get "/history", to: "rolls#history"
+    post "/roll", to: "rolls#roll", controller: "cors", action: "cors_preflight_check", via: [ :options ]
+    get "/history", to: "rolls#history", controller: "cors", action: "cors_preflight_check", via: [ :options ]
   end
 end
