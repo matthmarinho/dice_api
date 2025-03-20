@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def index
     @routes = fetch_routes
+    render json: { routes: @routes }
   end
 
   private
@@ -11,8 +12,9 @@ class HomeController < ApplicationController
         verb: route.verb.is_a?(String) ? route.verb.gsub(/[$^]/, "") : nil,
         path: route.path.spec.to_s,
         controller: route.defaults[:controller],
-        action: route.defaults[:action]
+        action: route.defaults[:action],
+        params: route.required_parts
       }
-    end.select { |r| r[:controller].present? }
+    end.select { |r| r[:controller].present? && %w[home rolls].include?(r[:controller]) }
   end
 end
