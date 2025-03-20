@@ -19,7 +19,6 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-
 development:
   <<: *default
   database: dice_api_development
@@ -83,7 +82,7 @@ production:
     <<: *default
     database: dice_api_production
     username: dice_api
-    password: <%= ENV["DICE_API_DATABASE_PASSWORD"] %>
+    url: <%= ENV['DATABASE_URL'] %>
   cache:
     <<: *primary_production
     database: dice_api_production_cache
