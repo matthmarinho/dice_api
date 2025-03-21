@@ -5,10 +5,16 @@ class DiceRollerService
     advantage = expression.include?("vant")
     disadvantage = expression.include?("desv")
     expression = expression.gsub(/(?:vant|desv)\s?/, "").strip
-    parts = expression.split(/d|\+/)
+
+    modifier_match = expression.match(/([+-]\d+)$/)
+    pp modifier_match
+    math_operator = modifier_match ? modifier_match[1][0] : "+"
+    modifier = modifier_match ? modifier_match[1][1..-1].to_i : 0
+
+    expression = expression.gsub(/([+-]\d+)$/, "").strip
+    parts = expression.split(/d/)
     num_dice = parts[0].empty? ? 1 : parts[0].to_i
     dice_sides = parts[1].to_i
-    modifier = parts.length > 2 ? parts[2].to_i : 0
 
     rolls = if advantage || disadvantage
               Array.new(2) { Array.new(num_dice) { rand(1..dice_sides) } }
@@ -24,8 +30,8 @@ class DiceRollerService
                       rolls.first
     end
 
-    total = best_or_worst.sum + modifier
+    total = best_or_worst.sum.method(math_operator).(modifier)
 
-    { expression: expression, rolls: rolls, best_or_worst: best_or_worst, modifier: modifier, total: total }
+    { expression: expression, rolls: rolls, best_or_worst: best_or_worst, modifier: modifier_match ? modifier_match[1] : "", total: total }
   end
 end
